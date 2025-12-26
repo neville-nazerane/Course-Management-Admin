@@ -2,6 +2,7 @@ using LMS.WebAPI.Endpoints;
 using LMS.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +14,10 @@ if (string.IsNullOrEmpty(dbConnectionString))
 }
 
 builder.Services.AddDbContext<AppDbContext>(c => c.UseSqlite(dbConnectionString));
-builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello LMS!");
-
-app.MapOpenApi("openapi.json");
 
 app.MapTeacherEndpoints();
 app.MapStudentEndpoints();
