@@ -19,6 +19,8 @@ namespace LMS.Models
         public string? Description { get; set; }
 
         public IEnumerable<StudyProgramCourse>? StudyProgramCourses { get; set; }
+
+        public IEnumerable<CourseSection>? CourseSections { get; set; }
     }
 
 }
