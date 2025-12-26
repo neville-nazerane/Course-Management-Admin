@@ -1,0 +1,7 @@
+{
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.html": "${capture}.ts,${capture}.css,${capture}.scss"
+    },
+    "editor.tabSize": 4
+}

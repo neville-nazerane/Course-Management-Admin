@@ -15,9 +15,19 @@ if (string.IsNullOrEmpty(dbConnectionString))
 
 builder.Services.AddDbContext<AppDbContext>(c => c.UseSqlite(dbConnectionString));
 
+builder.Services.AddCors(o =>
+{
+    o.AddDefaultPolicy(c =>
+    {
+        c.WithOrigins("http://localhost:4200");
+    });
+});
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello LMS!");
+
+app.UseCors();
 
 app.MapTeacherEndpoints();
 app.MapStudentEndpoints();
