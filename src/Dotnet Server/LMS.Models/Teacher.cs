@@ -22,5 +22,7 @@ namespace LMS.Models
 
         public required DateTime HiredOn { get; set; }
 
+        public IEnumerable<CourseSection>? CourseSections { get; set; }
+
     }
 }

@@ -23,5 +23,8 @@ namespace LMS.Models
         public int? StudyProgramId { get; set; }
 
         public StudyProgram? StudyProgram { get; set; }
+
+        public IEnumerable<Enrollment>? Enrollments { get; set; }
+
     }
 }

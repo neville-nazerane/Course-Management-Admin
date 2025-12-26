@@ -20,6 +20,8 @@ namespace LMS.Models
 
         public IEnumerable<Student>? Students { get; set; }
 
+        public IEnumerable<StudyProgramCourse>? StudyProgramCourses { get; set; }
+
     }
 
 }
