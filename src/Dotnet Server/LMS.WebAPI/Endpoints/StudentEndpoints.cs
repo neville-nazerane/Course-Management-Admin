@@ -8,13 +8,13 @@ namespace LMS.WebAPI.Endpoints
     {
         public static IEndpointConventionBuilder MapStudentEndpoints(this IEndpointRouteBuilder endpoints)
         {
-            var group = endpoints.MapGroup("student");
+            var group = endpoints.MapGroup("");
 
-            group.MapGet("{id}", GetAsync);
-            group.MapGet("~/students", GetAllAsync);
-            group.MapPost("", CreateAsync);
-            group.MapPut("", UpdateAsync);
-            group.MapDelete("{id}", DeleteAsync);
+            group.MapGet("student/{id}", GetAsync);
+            group.MapGet("students", GetAllAsync);
+            group.MapPost("student", CreateAsync);
+            group.MapPut("student", UpdateAsync);
+            group.MapDelete("student/{id}", DeleteAsync);
 
             return group;
         }
