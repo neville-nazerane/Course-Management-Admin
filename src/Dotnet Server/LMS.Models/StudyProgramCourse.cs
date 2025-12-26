@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace LMS.Models
 {
+
+    [PrimaryKey(nameof(StudyProgramId), nameof(CourseId))]
     public class StudyProgramCourse
     {
-        public int Id { get; set; }
-
         [Required]
         public int? StudyProgramId { get; set; }
 
