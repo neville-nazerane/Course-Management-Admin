@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using Bogus.DataSets;
 using LMS.Models;
+using LMS.TestConsole.Utils;
 using System.Net.Http.Json;
 
 #region Setup
@@ -17,11 +18,15 @@ var client = new HttpClient
 var teacherFaker = new Faker<Teacher>()
                             .RuleFor(t => t.FirstName, f => f.Person.FirstName)
                             .RuleFor(t => t.LastName, f => f.Person.LastName)
-                            .RuleFor(t => t.Title, f => MakeTitle(f.Person.Gender))
+                            .RuleFor(t => t.Title, f => f.MakeTitleByGender())
                             .RuleFor(t => t.DateOfBirth, f => f.Person.DateOfBirth)
-                            .RuleFor(t => t.HiredOn, f => DateTime.Now.AddDays(-1 * f.Random.Number(5)));
+                            .RuleFor(t => t.HiredOn, f => DateTime.Now.AddRandomPastDays());
 
-var studentFaker = new Faker<Student>();
+var studentFaker = new Faker<Student>()
+                            .RuleFor(t => t.FirstName, f => f.Person.FirstName)
+                            .RuleFor(t => t.LastName, f => f.Person.LastName)
+                            .RuleFor(t => t.DateOfBirth, f => f.Person.DateOfBirth)
+                            .RuleFor(t => t.EnrolledOn, f =>  DateTime.Now.AddRandomPastDays());
 
 var courseFaker = new Faker<Course>();
 
@@ -30,7 +35,18 @@ var courseFaker = new Faker<Course>();
 
 
 
-var teachers = teacherFaker.Generate(50);
+
+await foreach (var teacher in client.GetFromJsonAsAsyncEnumerable<Teacher>("teachers"))
+{
+    if (teacher is not null)
+    {
+        using var r = await client.DeleteAsync($"teacher/{teacher.Id}");
+        Console.WriteLine(r.StatusCode);
+    }
+}
+
+
+var teachers = teacherFaker.Generate(16);
 
 
 foreach (var teacher in teachers)
@@ -40,25 +56,13 @@ foreach (var teacher in teachers)
 }
 
 
-
-
-
-string? MakeTitle(Name.Gender gender)
-{
-    var num = rnd.Next(10);
-
-    if (num < 5)
-        return "Dr";
-    else if (num == 9)
-        return null;
-    else return gender == Name.Gender.Male ? "Mr" : "Mrs";
-}
+#region Utils
 
 
 
 
 
-
+#endregion
 
 
 

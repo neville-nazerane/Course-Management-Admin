@@ -37,16 +37,6 @@ export class Teachers implements OnInit {
   async update(t: Teacher){
     var updated = await this.dialog.openDialogAndWait<TeacherEditorDialog, Teacher>(TeacherEditorDialog, t);
     this.teachers.update(ts =>  ts.map(i => i.id === updated.id ? updated : i));
-      
-    //   {
-
-    //   var items : Teacher[] = [];
-
-    //   ts.forEach();
-
-    //   return items;
-
-    // });
   }
 
   async delete(t: Teacher){
@@ -54,9 +44,7 @@ export class Teachers implements OnInit {
     if (confirm)
     {
       await this.apiConsumer.deleteTeacher(t.id);
-
       this.teachers.update(ts => ts.filter(i => i.id != t.id));
-      // this.teachers = this.teachers.filter(i => i.id != t.id);
     }
   }
 
