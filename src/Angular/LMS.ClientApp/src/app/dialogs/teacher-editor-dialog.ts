@@ -1,7 +1,8 @@
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ApiConsumer } from '../services/api-consumer';
 
 @Component({
   selector: 'app-add-teacher',
@@ -10,6 +11,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   imports: [ReactiveFormsModule],
 })
 export class TeacherEditorDialog {
+
+  private consumer = inject(ApiConsumer);
 
   protected form: FormGroup;
 
@@ -24,8 +27,8 @@ export class TeacherEditorDialog {
     });
   }
   
-  save() {
-    console.log(this.form.value);
+  async save() : Promise<void> {
+    await this.consumer.createTeacher(this.form.value);
   }
 
   close() {

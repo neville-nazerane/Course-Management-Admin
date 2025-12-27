@@ -26,8 +26,12 @@ export class Teachers implements OnInit {
   }
 
   addNew() {
-    var d = this.dialog.open(TeacherEditorDialog);
-    
+    this.dialog.open(TeacherEditorDialog);
+  }
+
+  async delete(id: number){
+    await this.apiConsumer.deleteTeacher(id);
+    this.teachers = this.teachers.filter(t => t.id != id);
   }
 
 }

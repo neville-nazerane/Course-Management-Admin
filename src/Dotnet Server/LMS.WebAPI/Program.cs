@@ -19,15 +19,19 @@ builder.Services.AddCors(o =>
 {
     o.AddDefaultPolicy(c =>
     {
-        c.WithOrigins("http://localhost:4200");
+        c.AllowAnyMethod();
+        c.AllowAnyHeader();
+        c.AllowAnyOrigin();
+        //c.WithOrigins("http://localhost:4200");
     });
 });
 
 var app = builder.Build();
 
+app.UseCors();
+
 app.MapGet("/", () => "Hello LMS!");
 
-app.UseCors();
 
 app.MapTeacherEndpoints();
 app.MapStudentEndpoints();
