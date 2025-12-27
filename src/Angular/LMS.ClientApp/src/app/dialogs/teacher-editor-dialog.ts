@@ -28,7 +28,8 @@ export class TeacherEditorDialog {
   }
   
   async save() : Promise<void> {
-    await this.consumer.createTeacher(this.form.value);
+    var id = await this.consumer.createTeacher(this.form.value);
+    this.dialogRef.close(id);
   }
 
   close() {
