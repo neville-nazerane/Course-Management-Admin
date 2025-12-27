@@ -47,8 +47,9 @@ export class TeacherEditorDialog {
   async save() : Promise<void> {
     if (this.isEditing)
     {
-      await this.consumer.updateTeacher(this.form.value);
-      this.dialogRef.close();
+      var res = this.form.value;
+      await this.consumer.updateTeacher(res);
+      this.dialogRef.close(res);
     }
     else {
       var id = await this.consumer.createTeacher(this.form.value);

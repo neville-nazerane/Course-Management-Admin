@@ -34,8 +34,18 @@ export class Teachers implements OnInit {
   }
 
   async update(t: Teacher){
-    await this.dialog.openDialogAndWait(TeacherEditorDialog, t);
+    var updated = await this.dialog.openDialogAndWait<TeacherEditorDialog, Teacher>(TeacherEditorDialog, t);
+    this.teachers.update(ts =>  ts.map(i => i.id === updated.id ? updated : i));
+      
+    //   {
 
+    //   var items : Teacher[] = [];
+
+    //   ts.forEach();
+
+    //   return items;
+
+    // });
   }
 
   async delete(t: Teacher){
