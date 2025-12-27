@@ -16,12 +16,12 @@ export class Teachers implements OnInit {
 
   protected isLoading = signal(false);
 
-  protected teachers: Teacher[] = [];
+  protected teachers = signal<Teacher[]>([])
 
   async ngOnInit(): Promise<void> {
 
     this.isLoading.set(true);
-    this.teachers = await this.apiConsumer.getTeachers();
+    this.teachers.set(await this.apiConsumer.getTeachers());
     this.isLoading.set(false);
   }
 
@@ -29,17 +29,23 @@ export class Teachers implements OnInit {
     var id = await this.dialog.openDialogAndWait<TeacherEditorDialog, number>(TeacherEditorDialog);
     if (id){
       var newItem = await this.apiConsumer.getTeacher(id);
-      this.teachers.push(newItem);
+      this.teachers.update(t => [...t, newItem]);
     }
+  }
+
+  async update(t: Teacher){
+    await this.dialog.openDialogAndWait(TeacherEditorDialog, t);
+
   }
 
   async delete(t: Teacher){
     var confirm = await this.dialog.openConfirm("Are you sure you want to delete " + t.firstName);
-    console.log(234, confirm);
     if (confirm)
     {
       await this.apiConsumer.deleteTeacher(t.id);
-      this.teachers = this.teachers.filter(t => t.id != t.id);
+
+      this.teachers.update(ts => ts.filter(i => i.id != t.id));
+      // this.teachers = this.teachers.filter(i => i.id != t.id);
     }
   }
 
