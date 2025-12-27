@@ -4,9 +4,10 @@ import { Teacher } from '../models/teacher';
 import { TeacherEditorDialog } from '../dialogs/teacher-editor-dialog';
 import { MatProgressSpinner, MatSpinner } from '@angular/material/progress-spinner';
 import { DialogService } from '../services/dialog-service';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  imports: [MatProgressSpinner],
+  imports: [MatProgressSpinner, MatTableModule],
   templateUrl: './teachers.html',
 })
 export class Teachers implements OnInit {

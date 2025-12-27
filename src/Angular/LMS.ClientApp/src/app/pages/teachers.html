@@ -1,41 +1,47 @@
-<h3>Teachers</h3>
+<div class="header-row">
+    <h3>Teachers</h3>
+    <button class="btn btn-primary btn-lg" (click)="addNew()">Add</button>
+</div>
 
 @if (!isLoading()){
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>S. No</th>
-            <th>Title</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (teacher of teachers(); track teacher.id) {
 
-        <tr>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ teacher.title }}</td>
-            <td>{{ teacher.firstName }}</td>
-            <td>{{ teacher.lastName }}</td>
-            <td>
-                <button class="btn btn-secondary" (click)="update(teacher)">Edit</button>
-                <button class="btn btn-danger" (click)="delete(teacher)">Delete</button>
-            </td>
-        </tr>
+<table class="table table-striped">
+  <colgroup>
+    <col style="width: 10px">
+    <col style="width: 10px">
+    <col style="width: 30%">
+    <col style="width: 30%">
+    <col style="width: 50px">
+  </colgroup>
 
-        }
+  <thead>
+    <tr>
+      <th>S. No</th>
+      <th>Title</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th></th>
+    </tr>
+  </thead>
 
-
-    </tbody>
+  <tbody>
+    @for (teacher of teachers(); track teacher.id) {
+      <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ teacher.title }}</td>
+        <td>{{ teacher.firstName }}</td>
+        <td>{{ teacher.lastName }}</td>
+        <td class="actions-cell">
+            <button class="btn btn-secondary btn-sm" (click)="update(teacher)">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(teacher)">Delete</button>
+        </td>
+      </tr>
+    }
+  </tbody>
 </table>
+
 
 }
 @else {
-    <mat-progress-spinner />
+<mat-progress-spinner />
 }
-
-
-
-<button class="btn btn-primary" (click)="addNew()">Add</button>
