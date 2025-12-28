@@ -2,6 +2,7 @@
 using Bogus.DataSets;
 using LMS.Models;
 using LMS.TestConsole.Utils;
+using System.Data;
 using System.Net.Http.Json;
 
 #region Setup
@@ -23,26 +24,41 @@ var courseFaker = new Faker<Course>();
 #endregion
 
 
-// Clearing teachers
-await foreach (var teacher in client.GetFromJsonAsAsyncEnumerable<Teacher>("teachers"))
+
+await ClearTeachersAsync();
+
+await GenerateTeachersAsync(20);
+
+
+
+
+
+
+#region Functions
+
+async Task ClearTeachersAsync()
 {
-    if (teacher is not null)
+    await foreach (var teacher in client.GetFromJsonAsAsyncEnumerable<Teacher>("teachers"))
     {
-        using var r = await client.DeleteAsync($"teacher/{teacher.Id}");
-        Console.WriteLine(r.StatusCode);
+        if (teacher is not null)
+        {
+            using var r = await client.DeleteAsync($"teacher/{teacher.Id}");
+            Console.WriteLine(r.StatusCode);
+        }
     }
 }
 
-// Creating teachers
-var teachers = teacherFaker.Generate(16);
-
-
-foreach (var teacher in teachers)
+async Task GenerateTeachersAsync(int count = 20)
 {
-    using var res = await client.PostAsJsonAsync("teacher", teacher);
-    Console.WriteLine(res);
+    var teachers = teacherFaker.Generate(count);
+
+    foreach (var teacher in teachers)
+    {
+        using var res = await client.PostAsJsonAsync("teacher", teacher);
+        Console.WriteLine(res);
+    }
 }
 
 
 
-
+#endregion
