@@ -1,11 +1,12 @@
 
-import { Component, Inject, inject, Injector } from '@angular/core';
+import { Component, Inject, inject, Injector, signal } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConsumer } from '../services/api-consumer';
 import { Teacher } from '../models/teacher';
 import { DateUtils } from '../utils/date-utils';
 import { FormGroupMappings } from '../models/mappings/form-group-mapping';
+import { DialogService } from '../services/dialog-service';
 
 @Component({
   selector: 'app-add-teacher',
@@ -16,8 +17,11 @@ import { FormGroupMappings } from '../models/mappings/form-group-mapping';
 export class TeacherEditorDialog {
 
   private consumer = inject(ApiConsumer);
+  private dialog = inject(DialogService);
+  
   private isEditing = false;
 
+  protected isLoading = signal(false);
   protected form: FormGroup;
 
   constructor(private dialogRef: MatDialogRef<TeacherEditorDialog>,
@@ -29,16 +33,29 @@ export class TeacherEditorDialog {
   }
   
   async save() : Promise<void> {
-    if (this.isEditing)
+
+    try
     {
-      var res = this.form.value;
-      await this.consumer.updateTeacher(res);
-      this.dialogRef.close(res);
+      this.isLoading.set(true);
+      if (this.isEditing)
+      {
+        var res = this.form.value;
+        await this.consumer.updateTeacher(res);
+        this.dialogRef.close(res);
+      }
+      else {
+        var id = await this.consumer.createTeacher(this.form.value);
+        this.dialogRef.close(id);
+      }
     }
-    else {
-      var id = await this.consumer.createTeacher(this.form.value);
-      this.dialogRef.close(id);
+    catch {
+      const action = this.isEditing ? 'update' : 'add';
+      await this.dialog.openError(`Failed to ${action}`);
     }
+    finally {
+      this.isLoading.set(false);
+    }
+
   }
 
   close() {

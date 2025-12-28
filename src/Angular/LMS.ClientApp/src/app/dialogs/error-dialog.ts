@@ -3,25 +3,22 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'confirm-dialog',
+  selector: 'error-dialog',
   standalone: true,
-  templateUrl: './confirm-dialog.html',
+  templateUrl: './error-dialog.html',
   imports: [
     MatDialogModule,
     MatButtonModule
   ]
 })
-export class ConfirmDialog {
+export class ErrorDialog {
+
   constructor(
-    private dialogRef: MatDialogRef<ConfirmDialog>,
+    private dialogRef: MatDialogRef<ErrorDialog>,
     @Inject(MAT_DIALOG_DATA) protected message: string
   ) {}
 
-  yes(): void {
-    this.dialogRef.close(true);
-  }
-
-  no(): void {
-    this.dialogRef.close(false);
+  close(): void {
+    this.dialogRef.close();
   }
 }

@@ -23,13 +23,22 @@ export class Teachers implements OnInit {
   async ngOnInit(): Promise<void> {
 
     this.isLoading.set(true);
-    this.teachers.set(await this.apiConsumer.getTeachers());
-    this.isLoading.set(false);
+    try
+    {
+      this.teachers.set(await this.apiConsumer.getTeachers());
+    }
+    catch{
+      await this.dialog.openError('Failed to get teachers');
+    }
+    finally {
+      this.isLoading.set(false);
+    }
   }
 
   async addNew() {
     var id = await this.dialog.openDialogAndWait<TeacherEditorDialog, number>(TeacherEditorDialog);
     if (id){
+      
       var newItem = await this.apiConsumer.getTeacher(id);
       SignalUtils.push(this.teachers, newItem);
     }

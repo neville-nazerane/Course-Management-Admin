@@ -2,6 +2,7 @@ import { inject, Injectable, Type } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { firstValueFrom } from "rxjs";
 import { ConfirmDialog } from "../dialogs/confirm-dialog";
+import { ErrorDialog } from "../dialogs/error-dialog";
 
 
 @Injectable({providedIn: 'root'})
@@ -17,6 +18,9 @@ export class DialogService {
         return await this.openDialogAndWait<ConfirmDialog, boolean>(ConfirmDialog, message);
     }
 
+    async openError(message: string): Promise<void> {
+        await this.openDialogAndWait(ErrorDialog, message);
+    }
 
     openDialogAndWait<TComponent, TResponse>(component: Type<TComponent>, data?: unknown): Promise<TResponse> {
         return firstValueFrom(
