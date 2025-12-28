@@ -53,8 +53,18 @@ export class Teachers implements OnInit {
     var confirm = await this.dialog.openConfirm("Are you sure you want to delete " + t.firstName);
     if (confirm)
     {
-      await this.apiConsumer.deleteTeacher(t.id);
-      SignalUtils.removeById(this.teachers, t.id);
+      try{
+        this.isLoading.set(true);
+        await this.apiConsumer.deleteTeacher(t.id);
+        SignalUtils.removeById(this.teachers, t.id);
+      }
+      catch {
+        await this.dialog.openError('Failed to delete item');
+      }
+      finally
+      {
+        this.isLoading.set(false);
+      }
     }
   }
 

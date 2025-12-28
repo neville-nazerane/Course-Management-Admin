@@ -13,9 +13,13 @@ if (string.IsNullOrEmpty(dbConnectionString))
     dbConnectionString = @"Data Source=data/db.data";
 }
 
-builder.Services.AddDbContext<AppDbContext>(c => c.UseSqlite(dbConnectionString));
+var services = builder.Services;
 
-builder.Services.AddCors(o =>
+services.AddDbContext<AppDbContext>(c => c.UseSqlite(dbConnectionString));
+
+services.AddValidation();
+
+services.AddCors(o =>
 {
     o.AddDefaultPolicy(c =>
     {
