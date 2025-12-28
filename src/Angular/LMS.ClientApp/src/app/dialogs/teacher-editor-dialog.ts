@@ -1,12 +1,13 @@
 
 import { Component, Inject, inject, Injector, signal } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConsumer } from '../services/api-consumer';
 import { Teacher } from '../models/teacher';
 import { DateUtils } from '../utils/date-utils';
 import { FormGroupMappings } from '../models/mappings/form-group-mapping';
 import { DialogService } from '../services/dialog-service';
+import { FormUtils } from '../utils/form-utils';
 
 @Component({
   selector: 'app-add-teacher',
@@ -34,11 +35,15 @@ export class TeacherEditorDialog {
   
   async save() : Promise<void> {
 
+    this.form.markAllAsTouched();
+    if (!this.form.valid) return;
+
     try
     {
       this.isLoading.set(true);
       if (this.isEditing)
       {
+        this.form.controls
         var res = this.form.value;
         await this.consumer.updateTeacher(res);
         this.dialogRef.close(res);
@@ -61,4 +66,9 @@ export class TeacherEditorDialog {
   close() {
     this.dialogRef.close();
   }
+
+  getErrors(control: AbstractControl | null){
+    return FormUtils.getErrors(control);
+  }
+
 }
