@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class ConfirmDialog {
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialog>,
-    @Inject(MAT_DIALOG_DATA) public message: string
+    @Inject(MAT_DIALOG_DATA) protected message: string
   ) {}
 
   yes(): void {

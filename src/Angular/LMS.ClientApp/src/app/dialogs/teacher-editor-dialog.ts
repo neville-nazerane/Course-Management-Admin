@@ -1,10 +1,11 @@
 
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, Injector } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConsumer } from '../services/api-consumer';
 import { Teacher } from '../models/teacher';
 import { DateUtils } from '../utils/date-utils';
+import { FormGroupMappings } from '../models/mappings/form-group-mapping';
 
 @Component({
   selector: 'app-add-teacher',
@@ -20,22 +21,11 @@ export class TeacherEditorDialog {
   protected form: FormGroup;
 
   constructor(private dialogRef: MatDialogRef<TeacherEditorDialog>,
-              @Inject(MAT_DIALOG_DATA) public data: Teacher
+              @Inject(MAT_DIALOG_DATA) data: Teacher
   ) 
   {
-
     this.isEditing = data != null;
-
-    this.form = new FormGroup({
-      id: new FormControl(data?.id ?? 0),
-      title: new FormControl(data?.title ?? ''),
-      firstName: new FormControl(data?.firstName ?? ''),
-      lastName: new FormControl(data?.lastName ?? ''),
-      dateOfBirth: new FormControl(DateUtils.toDateInput(data?.dateOfBirth)),
-      hiredOn: new FormControl(DateUtils.toDateInput(data?.hiredOn, new Date()))
-    });
-
-
+    this.form = FormGroupMappings.createTeacher(data);
   }
   
   async save() : Promise<void> {
