@@ -2,7 +2,7 @@ import { WritableSignal } from "@angular/core";
 
 export class SignalUtils {
 
-    static pushAndUpdate<T>(signal: WritableSignal<T[]>, item: T) {
+    static push<T>(signal: WritableSignal<T[]>, item: T) {
         signal.update(arr => [...arr, item]);
     }
 

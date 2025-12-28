@@ -31,7 +31,7 @@ export class Teachers implements OnInit {
     var id = await this.dialog.openDialogAndWait<TeacherEditorDialog, number>(TeacherEditorDialog);
     if (id){
       var newItem = await this.apiConsumer.getTeacher(id);
-      SignalUtils.pushAndUpdate(this.teachers, newItem);
+      SignalUtils.push(this.teachers, newItem);
     }
   }
 
