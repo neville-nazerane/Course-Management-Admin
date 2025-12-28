@@ -15,7 +15,7 @@ namespace LMS.TestConsole.Utils
 
             var num = f.Random.Number(10);
 
-            if (num < 6)
+            if (num < 2)
                 return "Dr";
             else return gender == Name.Gender.Male ? "Mr" : "Mrs";
         }

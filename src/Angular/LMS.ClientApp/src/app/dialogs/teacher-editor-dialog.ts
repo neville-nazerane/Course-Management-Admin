@@ -4,6 +4,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiConsumer } from '../services/api-consumer';
 import { Teacher } from '../models/teacher';
+import { DateUtils } from '../utils/date-utils';
 
 @Component({
   selector: 'app-add-teacher',
@@ -30,17 +31,10 @@ export class TeacherEditorDialog {
       title: new FormControl(data?.title ?? ''),
       firstName: new FormControl(data?.firstName ?? ''),
       lastName: new FormControl(data?.lastName ?? ''),
-      dateOfBirth: new FormControl(
-        data?.dateOfBirth
-          ? new Date(data.dateOfBirth).toISOString().split('T')[0]
-          : null
-      ),
-      hiredOn: new FormControl(
-        data?.hiredOn
-          ? new Date(data.hiredOn).toISOString().split('T')[0]
-          : new Date().toISOString().split('T')[0]
-      )
+      dateOfBirth: new FormControl(DateUtils.toDateInput(data?.dateOfBirth)),
+      hiredOn: new FormControl(DateUtils.toDateInput(data?.hiredOn, new Date()))
     });
+
 
   }
   

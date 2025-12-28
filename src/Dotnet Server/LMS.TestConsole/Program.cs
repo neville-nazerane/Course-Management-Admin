@@ -7,26 +7,15 @@ using System.Net.Http.Json;
 #region Setup
 
 
-var rnd = new Random();
-
 var client = new HttpClient
 {
     BaseAddress = new("https://localhost:7283")
 };
 
 
-var teacherFaker = new Faker<Teacher>()
-                            .RuleFor(t => t.FirstName, f => f.Person.FirstName)
-                            .RuleFor(t => t.LastName, f => f.Person.LastName)
-                            .RuleFor(t => t.Title, f => f.MakeTitleByGender())
-                            .RuleFor(t => t.DateOfBirth, f => f.Person.DateOfBirth)
-                            .RuleFor(t => t.HiredOn, f => DateTime.Now.AddRandomPastDays());
+var teacherFaker = new Faker<Teacher>().SetupDefaults();
 
-var studentFaker = new Faker<Student>()
-                            .RuleFor(t => t.FirstName, f => f.Person.FirstName)
-                            .RuleFor(t => t.LastName, f => f.Person.LastName)
-                            .RuleFor(t => t.DateOfBirth, f => f.Person.DateOfBirth)
-                            .RuleFor(t => t.EnrolledOn, f =>  DateTime.Now.AddRandomPastDays());
+var studentFaker = new Faker<Student>().SetupDefaults();
 
 var courseFaker = new Faker<Course>();
 
@@ -34,8 +23,7 @@ var courseFaker = new Faker<Course>();
 #endregion
 
 
-
-
+// Clearing teachers
 await foreach (var teacher in client.GetFromJsonAsAsyncEnumerable<Teacher>("teachers"))
 {
     if (teacher is not null)
@@ -45,7 +33,7 @@ await foreach (var teacher in client.GetFromJsonAsAsyncEnumerable<Teacher>("teac
     }
 }
 
-
+// Creating teachers
 var teachers = teacherFaker.Generate(16);
 
 
@@ -55,14 +43,6 @@ foreach (var teacher in teachers)
     Console.WriteLine(res);
 }
 
-
-#region Utils
-
-
-
-
-
-#endregion
 
 
 
