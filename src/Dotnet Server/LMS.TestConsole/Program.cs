@@ -2,6 +2,7 @@
 using Bogus.DataSets;
 using LMS.Models;
 using LMS.TestConsole.Utils;
+using System.Collections.Immutable;
 using System.Data;
 using System.Net.Http.Json;
 
@@ -16,7 +17,7 @@ var client = new HttpClient
 
 var teacherFaker = new Faker<Teacher>().SetupDefaults();
 
-var studentFaker = new Faker<Student>().SetupDefaults();
+
 
 var courseFaker = new Faker<Course>().SetupDefaults();
 
@@ -29,7 +30,7 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await ClearTeachersAsync();
 
-await GenerateTeachersAsync(5);
+//await GenerateTeachersAsync(5);
 
 //await ClearCoursesAsync();
 
@@ -39,6 +40,7 @@ await GenerateTeachersAsync(5);
 
 //await GenerateStudyProgramsAsync(20);
 
+await GenerateStudentsAsync(100);
 
 
 #region Functions
@@ -120,6 +122,31 @@ async Task GenerateStudyProgramsAsync(int count)
     foreach (var program in programs)
     {
         using var res = await client.PostAsJsonAsync("study-program", program);
+        Console.WriteLine(res.StatusCode);
+    }
+}
+
+async Task GenerateStudentsAsync(int count)
+{
+    var programs = await client.GetFromJsonAsync<IEnumerable<StudyProgram>>("study-programs");
+
+    if (programs is null || !programs.Any())
+    {
+        Console.WriteLine("WARNING: No programs to create students");
+        return;
+    }
+
+    var programIds = programs.Select(program => program.Id).ToArray();
+
+    var studentFaker = new Faker<Student>()
+                                .SetupDefaults()
+                                .RuleFor(r => r.StudyProgramId, f => f.Random.ArrayElement(programIds));
+
+    var students = studentFaker.Generate(count);
+
+    foreach (var student in students)
+    {
+        using var res = await client.PostAsJsonAsync("student", student);
         Console.WriteLine(res.StatusCode);
     }
 }

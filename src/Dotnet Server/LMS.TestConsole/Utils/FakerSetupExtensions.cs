@@ -9,8 +9,6 @@ namespace LMS.TestConsole.Utils
     public static class FakerSetupExtensions
     {
 
-
-
         public static Faker<Student> SetupDefaults(this Faker<Student> faker)
         {
             return faker.RuleFor(t => t.FirstName, f => f.Person.FirstName)
