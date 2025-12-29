@@ -126,6 +126,18 @@ async Task GenerateStudyProgramsAsync(int count)
     }
 }
 
+async Task ClearStudentsAsync()
+{
+    var students = await client.GetFromJsonAsync<IEnumerable<Student>>("students");
+
+    if (students is null) return;
+    foreach (var student in students)
+    {
+        using var res = await client.DeleteAsync($"student/{student.Id}");
+        Console.WriteLine(res.StatusCode);
+    }
+}
+
 async Task GenerateStudentsAsync(int count)
 {
     var programs = await client.GetFromJsonAsync<IEnumerable<StudyProgram>>("study-programs");
