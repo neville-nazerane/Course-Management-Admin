@@ -58,5 +58,57 @@ namespace LMS.TestConsole.Utils
             "Special Education"
         ];
 
+
+        public static readonly ICollection<string> StudyProgramNames =
+        [
+            "BSc Computer Science",
+            "MS Data Science",
+            "PhD Physics",
+            "BSc Mechanical Engineering",
+            "MS Electrical Engineering",
+            "PhD Chemistry",
+            "BSc Economics",
+            "MS Finance",
+            "PhD Psychology",
+            "BSc Biology",
+            "MS Artificial Intelligence",
+            "PhD Mathematics",
+            "BSc Civil Engineering",
+            "MS Statistics",
+            "PhD Biology",
+            "BSc Business Administration",
+            "MS International Relations",
+            "PhD Philosophy",
+            "BSc Environmental Science",
+            "MS Biotechnology",
+            "BSc Chemical Engineering",
+            "MS Materials Science",
+            "PhD Neuroscience",
+            "BSc Physics",
+            "MS Applied Mathematics",
+            "PhD Computer Science",
+            "BSc Electrical Engineering",
+            "MS Software Engineering",
+            "PhD Economics",
+            "BSc Mathematics",
+            "MS Environmental Engineering",
+            "PhD Political Science",
+            "BSc Psychology",
+            "MS Cognitive Science",
+            "PhD Sociology",
+            "BSc Geology",
+            "MS Geophysics",
+            "PhD Astrophysics",
+            "BSc Statistics",
+            "MS Bioinformatics",
+            "PhD Biomedical Engineering",
+            "BSc Architecture",
+            "MS Urban Planning",
+            "PhD Education",
+            "BSc Philosophy",
+            "MS Ethics",
+            "PhD History"
+        ];
+
     }
 }

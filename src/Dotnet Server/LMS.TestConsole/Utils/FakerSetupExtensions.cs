@@ -36,6 +36,13 @@ namespace LMS.TestConsole.Utils
 
         }
 
+        public static Faker<StudyProgram> SetupDefaults(this Faker<StudyProgram> faker)
+        {
+            return faker.RuleFor(t => t.Name, f => f.PopRandom(CustomData.StudyProgramNames))
+                       .RuleFor(t => t.Description, f => f.Commerce.ProductDescription())
+                       .RuleFor(t => t.Code, f => f.Random.AlphaNumeric(6));
+        }
+
         private static TResult PopRandom<TResult>(this Faker faker, ICollection<TResult> data)
         {
             if (data.Count == 0)
