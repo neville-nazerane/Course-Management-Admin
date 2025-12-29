@@ -1,0 +1,60 @@
+<div class="dialog">
+  <form [formGroup]="form">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">First Name *</label>
+        <input type="text" class="form-control" formControlName="firstName" />
+        @for (e of getErrors(form.get('firstName')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Last Name *</label>
+        <input type="text" class="form-control" formControlName="lastName" />
+        @for (e of getErrors(form.get('lastName')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Date of Birth *</label>
+        <input type="date" class="form-control" formControlName="dateOfBirth" />
+        @for (e of getErrors(form.get('dateOfBirth')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Enrolled On *</label>
+        <input type="date" class="form-control" formControlName="enrolledOn" />
+        @for (e of getErrors(form.get('enrolledOn')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">Study Program *</label>
+        <select class="form-select" formControlName="studyProgramId">
+          <option [ngValue]="null">Select study program</option>
+          @for (sp of studyPrograms(); track sp.id) {
+            <option [ngValue]="sp.id">{{ sp.name }}</option>
+          }
+        </select>
+        @for (e of getErrors(form.get('studyProgramId')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+
+  </form>
+</div>

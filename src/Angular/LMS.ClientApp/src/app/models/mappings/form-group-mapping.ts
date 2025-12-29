@@ -3,6 +3,7 @@ import { Teacher } from "../teacher";
 import { DateUtils } from "../../utils/date-utils";
 import { StudyProgram } from "../study-program";
 import { Course } from "../course";
+import { Student } from "../student";
 
 export class FormGroupMappings {
 
@@ -84,6 +85,40 @@ export class FormGroupMappings {
 
         return new FormGroup({ id, name, code, description });
     }
+
+    static createStudent(data?: Student): FormGroup {
+        const id = FormGroupMappings.control(data?.id ?? 0);
+
+        const firstName = FormGroupMappings.control(
+            data?.firstName ?? '',
+            Validators.required,
+            Validators.maxLength(100)
+        );
+
+        const lastName = FormGroupMappings.control(
+            data?.lastName ?? '',
+            Validators.required,
+            Validators.maxLength(100)
+        );
+
+        const dateOfBirth = FormGroupMappings.control(
+            DateUtils.toDateInput(data?.dateOfBirth),
+            Validators.required
+        );
+
+        const enrolledOn = FormGroupMappings.control(
+            DateUtils.toDateInput(data?.enrolledOn, new Date()),
+            Validators.required
+        );
+
+        const studyProgramId = FormGroupMappings.control(
+            data?.studyProgramId ?? null,
+            Validators.required
+        );
+
+        return new FormGroup({ id, firstName, lastName, dateOfBirth, enrolledOn, studyProgramId });
+    }
+
 
     private static control<T>(value: T, ...validators: ValidatorFn[]): FormControl<T | null> {
         return new FormControl(value, { validators });

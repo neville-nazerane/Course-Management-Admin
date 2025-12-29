@@ -29,15 +29,15 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await ClearTeachersAsync();
 
-//await GenerateTeachersAsync();
+await GenerateTeachersAsync(5);
 
 //await ClearCoursesAsync();
 
 //await GenerateCoursesAsync(20);
 
-await ClearStudyProgramsAsync();
+//await ClearStudyProgramsAsync();
 
-await GenerateStudyProgramsAsync(20);
+//await GenerateStudyProgramsAsync(20);
 
 
 

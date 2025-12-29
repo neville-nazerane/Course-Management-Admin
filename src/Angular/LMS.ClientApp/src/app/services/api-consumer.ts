@@ -5,6 +5,7 @@ import { firstValueFrom } from "rxjs";
 import { setThrowInvalidWriteToSignalError } from "@angular/core/primitives/signals";
 import { Course } from "../models/course";
 import { StudyProgram } from "../models/study-program";
+import { Student } from "../models/student";
 
 @Injectable({providedIn: 'root'})
 export class ApiConsumer {
@@ -71,6 +72,25 @@ export class ApiConsumer {
         return this.delete<void>(`study-program/${id}`);
     }
 
+    public getStudents(): Promise<Student[]> {
+        return this.get<Student[]>('students');
+    }
+
+    public getStudent(id: number): Promise<Student> {
+        return this.get<Student>(`student/${id}`);
+    }
+
+    public createStudent(model: Student): Promise<Student> {
+        return this.post<Student>('student', model);
+    }
+
+    public updateStudent(model: Student): Promise<void> {
+        return this.put<void>('student', model);
+    }
+
+    public deleteStudent(id: number): Promise<void> {
+        return this.delete<void>(`student/${id}`);
+    }
 
 
     get<T>(url: string): Promise<T> {
