@@ -31,11 +31,12 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await GenerateTeachersAsync();
 
-await ClearCoursesAsync();
+//await ClearCoursesAsync();
 
-await GenerateCoursesAsync(20);
+//await GenerateCoursesAsync(20);
 
 
+await GenerateStudyProgramsAsync(20);
 
 
 

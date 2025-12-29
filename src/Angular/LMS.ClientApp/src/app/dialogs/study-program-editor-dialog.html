@@ -1,0 +1,37 @@
+<div class="dialog">
+  <form [formGroup]="form">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Name *</label>
+        <input type="text" class="form-control" formControlName="name" />
+        @for (e of getErrors(form.get('name')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Code *</label>
+        <input type="text" class="form-control" formControlName="code" />
+        @for (e of getErrors(form.get('code')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" rows="3" formControlName="description"></textarea>
+        @for (e of getErrors(form.get('description')); track e) {
+          <div class="text-danger">{{ e }}</div>
+        }
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary" (click)="save()">Save</button>
+    </div>
+
+  </form>
+</div>

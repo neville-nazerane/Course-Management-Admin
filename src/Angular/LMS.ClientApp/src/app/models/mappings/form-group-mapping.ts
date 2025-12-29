@@ -62,21 +62,31 @@ export class FormGroupMappings {
         return new FormGroup({ id, name, code, description });
     }
 
-
     static createStudyProgram(data?: StudyProgram): FormGroup {
-        return new FormGroup({
-            id: new FormControl(data?.id ?? 0),
-            name: new FormControl(data?.name ?? ''),
-            code: new FormControl(data?.code ?? ''),
-            description: new FormControl(data?.description ?? '')
-        });
-    }
+        const id = FormGroupMappings.control(data?.id ?? 0);
 
+        const name = FormGroupMappings.control(
+            data?.name ?? '',
+            Validators.required,
+            Validators.maxLength(150)
+        );
+
+        const code = FormGroupMappings.control(
+            data?.code ?? '',
+            Validators.required,
+            Validators.maxLength(20)
+        );
+
+        const description = FormGroupMappings.control(
+            data?.description ?? '',
+            Validators.maxLength(500)
+        );
+
+        return new FormGroup({ id, name, code, description });
+    }
 
     private static control<T>(value: T, ...validators: ValidatorFn[]): FormControl<T | null> {
         return new FormControl(value, { validators });
     }
-    
-
 
 }
