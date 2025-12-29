@@ -8,21 +8,19 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="teachers">Teachers</a>
+          <a class="nav-link" routerLink="teachers" routerLinkActive="active">Teachers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/courses">Courses</a>
+          <a class="nav-link" routerLink="courses" routerLinkActive="active">Courses</a>
         </li>        
         <li class="nav-item">
-          <a class="nav-link" routerLink="/study-programs">Study Programs</a>
+          <a class="nav-link" routerLink="study-programs" routerLinkActive="active">Study Programs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/students">Students</a>
+          <a class="nav-link" routerLink="students">Students</a>
         </li>
       </ul>
       <!-- <form class="d-flex">

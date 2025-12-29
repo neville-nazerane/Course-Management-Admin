@@ -35,6 +35,7 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await GenerateCoursesAsync(20);
 
+await ClearStudyProgramsAsync();
 
 await GenerateStudyProgramsAsync(20);
 
