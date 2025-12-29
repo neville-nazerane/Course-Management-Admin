@@ -18,17 +18,20 @@ var teacherFaker = new Faker<Teacher>().SetupDefaults();
 
 var studentFaker = new Faker<Student>().SetupDefaults();
 
-var courseFaker = new Faker<Course>();
+var courseFaker = new Faker<Course>().SetupDefaults();
 
 
 #endregion
 
 
 
-await ClearTeachersAsync();
+//await ClearTeachersAsync();
 
-await GenerateTeachersAsync(20);
+//await GenerateTeachersAsync();
 
+await ClearCoursesAsync();
+
+await GenerateCoursesAsync();
 
 
 
@@ -59,6 +62,34 @@ async Task GenerateTeachersAsync(int count = 20)
     }
 }
 
+async Task ClearCoursesAsync()
+{
+    var courses = await client.GetFromJsonAsync<IEnumerable<Course>>("courses");
+
+    if (courses is null) return;
+    foreach (var course in courses)
+    {
+        using var res = await client.DeleteAsync($"course/{course.Id}");
+        Console.WriteLine(res.StatusCode);
+    }
+}
+
+async Task GenerateCoursesAsync(int count = 20)
+{
+    if (count > CustomData.CourseNames.Count)
+    {
+        count = CustomData.CourseNames.Count;
+        Console.WriteLine($"WARNING: Count capped to {count}.");
+    }
+
+    var courses = courseFaker.Generate(count);
+
+    foreach (var course in courses)
+    {
+        using var res = await client.PostAsJsonAsync("course", course);
+        Console.WriteLine(res.StatusCode);
+    }
+}
 
 
 #endregion

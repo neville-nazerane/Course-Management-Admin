@@ -1,0 +1,46 @@
+<div class="header-row">
+  <h3>Courses</h3>
+  <button class="btn btn-primary btn-lg" (click)="addNew()">Add</button>
+</div>
+
+@if (!isLoading()) {
+
+<table class="table table-striped">
+  <colgroup>
+    <col style="width: 1cqmax">
+    <col style="width: 30%">
+    <col style="width: 20%">
+    <col style="width: 40%">
+    <col style="width: 50px">
+  </colgroup>
+
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Name</th>
+      <th>Code</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (course of courses(); track course.id) {
+      <tr>
+        <td>{{ $index + 1 }}</td>
+        <td>{{ course.name }}</td>
+        <td>{{ course.code }}</td>
+        <td>{{ course.description }}</td>
+        <td class="actions-cell">
+          <button class="btn btn-secondary btn-sm" (click)="update(course)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="delete(course)">Delete</button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+}
+@else {
+  <mat-progress-spinner />
+}
