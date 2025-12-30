@@ -48,7 +48,7 @@ export class Courses implements OnInit {
   }
 
   openTeachers(courseId: number){
-    this.dialog.open(CourseTeachersDialog, courseId);
+    this.dialog.open(CourseTeachersDialog, { courseId });
   }
 
   async delete(c: Course) {

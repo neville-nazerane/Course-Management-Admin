@@ -34,6 +34,10 @@ export class ApiConsumer {
         return this.delete<void>(`teacher/${id}`);
     }
 
+    public getCourseSectionsByTeacherId(teacherId: number): Promise<CourseSectionDisplay[]> {
+        return this.get<CourseSectionDisplay[]>(`teacher/${teacherId}/courseSections`);
+    }
+
     public getCourses(): Promise<Course[]> {
         return this.get<Course[]>('courses');
     }

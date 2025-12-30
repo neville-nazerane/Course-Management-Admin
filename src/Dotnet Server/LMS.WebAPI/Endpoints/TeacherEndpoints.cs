@@ -17,6 +17,8 @@ namespace LMS.WebAPI.Endpoints
             group.MapPut("teacher", UpdateAsync);
             group.MapDelete("teacher/{id}", DeleteAsync);
 
+            group.MapGet("teacher/{teacherId}/courseSections", GetCourseSectionsAsync);
+
             return group;
         }
 
@@ -61,6 +63,29 @@ namespace LMS.WebAPI.Endpoints
 
             return deletedCount == 1;
         }
+
+        static async Task<IEnumerable<CourseSectionDisplay>> GetCourseSectionsAsync(AppDbContext dbContext,
+                                                                                    int teacherId,
+                                                                                    CancellationToken cancellationToken = default)
+        {
+#pragma warning disable CS8602 // Dereference of a possibly null reference. Required relations can't be null
+            var res = await dbContext.CourseSections
+                                        .Where(c => c.TeacherId == teacherId)
+                                        .Select(c => new CourseSectionDisplay
+                                        {
+                                            Id = c.Id,
+                                            CourseId = c.CourseId ?? 0,
+                                            CourseName = c.Course.Name,
+                                            TeacherId = c.TeacherId ?? 0,
+                                            TeacherName = $"{c.Teacher.FirstName} {c.Teacher.LastName}",
+                                            SectionCode = c.SectionCode
+                                        })
+                                        .ToListAsync(cancellationToken);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+
+            return res;
+        }
+
 
     }
 }

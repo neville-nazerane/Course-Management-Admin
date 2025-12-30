@@ -7,6 +7,7 @@ import { CourseSectionDisplay } from '../models/course-section-display';
 import { CourseSectionEditorDialog } from './course-section-editor-dialog';
 import { SignalUtils } from '../utils/signal-utils';
 import { CourseSection } from '../models/course-section';
+import { CourseTeachersRequest } from '../models/course-teachers-request';
 
 @Component({
   selector: 'app-course-editor',
@@ -21,12 +22,15 @@ export class CourseTeachersDialog implements OnInit {
     constructor(private dialogRef: MatDialogRef<CourseTeachersDialog>,
                 private consumer: ApiConsumer,
                 private dialog: DialogService,
-                @Inject(MAT_DIALOG_DATA) private courseId: number){
+                @Inject(MAT_DIALOG_DATA) private request: CourseTeachersRequest){
         
     }
 
     async ngOnInit(): Promise<void> {
-        this.items.set(await this.consumer.getCourseSectionsByCourseId(this.courseId))
+        if (this.request.courseId)
+            this.items.set(await this.consumer.getCourseSectionsByCourseId(this.request.courseId));
+        else if (this.request.teacherId)
+            this.items.set(await this.consumer.getCourseSectionsByTeacherId(this.request.teacherId));
     }
 
     async edit(d: CourseSectionDisplay){
@@ -40,11 +44,28 @@ export class CourseTeachersDialog implements OnInit {
         var updated = await this.consumer.getCourseSection(d.id);
         SignalUtils.replaceById(this.items, updated);
     }
+    
+    async delete(d: CourseSectionDisplay): Promise<void> {
+        try {
+            const id = d.id;
+            const confirm = await this.dialog.openConfirm('Are you sure you want to delete ' + d.sectionCode);
+            if (confirm){
+                await this.consumer.deleteCourseSection(id);
+                SignalUtils.removeById(this.items, id);    
+            }
+        } 
+        catch {
+            this.dialog.openError("Failed to throw exception");
+        }
+    }
 
     async add() : Promise<void> {
+        
         var model : CourseSection = {
-            courseId: this.courseId
-        };
+            courseId: this.request.courseId,
+            teacherId: this.request.teacherId
+        }
+
         var id = await this.dialog.openDialogAndWait<CourseSectionEditorDialog, number>(CourseSectionEditorDialog, model);
         var newItem = await this.consumer.getCourseSection(id);
         SignalUtils.push(this.items, newItem);

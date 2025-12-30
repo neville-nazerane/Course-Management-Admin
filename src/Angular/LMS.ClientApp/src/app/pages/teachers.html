@@ -32,6 +32,7 @@
         <td>{{ teacher.firstName }}</td>
         <td>{{ teacher.lastName }}</td>
         <td class="actions-cell">
+            <button class="btn btn-secondary btn-sm" (click)="openCourses(teacher.id)">Courses</button>
             <button class="btn btn-secondary btn-sm" (click)="update(teacher)">Edit</button>
             <button class="btn btn-danger btn-sm" (click)="delete(teacher)">Delete</button>
         </td>

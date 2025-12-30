@@ -6,6 +6,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DialogService } from '../services/dialog-service';
 import { MatTableModule } from '@angular/material/table';
 import { SignalUtils } from '../utils/signal-utils';
+import { CourseTeachersDialog } from '../dialogs/course-teachers-dialog';
 
 @Component({
   imports: [MatProgressSpinner, MatTableModule],
@@ -23,11 +24,10 @@ export class Teachers implements OnInit {
   async ngOnInit(): Promise<void> {
 
     this.isLoading.set(true);
-    try
-    {
+    try {
       this.teachers.set(await this.apiConsumer.getTeachers());
     }
-    catch{
+    catch {
       await this.dialog.openError('Failed to get teachers');
     }
     finally {
@@ -35,25 +35,29 @@ export class Teachers implements OnInit {
     }
   }
 
+
+  openCourses(teacherId: number) {
+    this.dialog.open(CourseTeachersDialog, { teacherId });
+  }
+
   async addNew() {
     var id = await this.dialog.openDialogAndWait<TeacherEditorDialog, number>(TeacherEditorDialog);
-    if (id){
-      
+    if (id) {
+
       var newItem = await this.apiConsumer.getTeacher(id);
       SignalUtils.push(this.teachers, newItem);
     }
   }
 
-  async update(t: Teacher){
+  async update(t: Teacher) {
     var updated = await this.dialog.openDialogAndWait<TeacherEditorDialog, Teacher>(TeacherEditorDialog, t);
     SignalUtils.replaceById(this.teachers, updated);
   }
 
-  async delete(t: Teacher){
+  async delete(t: Teacher) {
     var confirm = await this.dialog.openConfirm("Are you sure you want to delete " + t.firstName);
-    if (confirm)
-    {
-      try{
+    if (confirm) {
+      try {
         this.isLoading.set(true);
         await this.apiConsumer.deleteTeacher(t.id);
         SignalUtils.removeById(this.teachers, t.id);
@@ -61,8 +65,7 @@ export class Teachers implements OnInit {
       catch {
         await this.dialog.openError('Failed to delete item');
       }
-      finally
-      {
+      finally {
         this.isLoading.set(false);
       }
     }
