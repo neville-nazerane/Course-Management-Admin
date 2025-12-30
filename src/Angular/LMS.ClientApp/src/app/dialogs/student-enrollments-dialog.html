@@ -1,0 +1,72 @@
+<div class="dialog">
+
+  <h4 class="mb-3">Current Enrollments</h4>
+
+  <table class="table table-striped mb-4">
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>Section</th>
+        <th>Teacher</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (e of enrollments(); track e.id) {
+        <tr>
+          <td>{{ e.courseName }}</td>
+          <td>{{ e.courseSectionCode }}</td>
+          <td>{{ e.teacherName }}</td>
+          <td class="text-end">
+            <button class="btn btn-danger btn-sm" (click)="deleteEnrollment(e)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <h4 class="mb-3">Enroll in a Course</h4>
+
+  <div class="mb-3">
+    <select class="form-select"
+            [(ngModel)]="selectedCourseId"
+            (ngModelChange)="onCourseChange()">
+      <option [ngValue]="null">Select a course to enroll</option>
+      @for (c of courses(); track c.id) {
+        <option [ngValue]="c.id">{{ c.name }}</option>
+      }
+    </select>
+  </div>
+
+  @if (sections().length > 0) {
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Teacher</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of sections(); track s.id) {
+          <tr>
+            <td>{{ s.sectionCode }}</td>
+            <td>{{ s.teacherName }}</td>
+            <td class="text-end">
+              <button class="btn btn-primary btn-sm" (click)="enroll(s)">
+                Enroll
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="text-end mt-3">
+    <button class="btn btn-danger" (click)="close()">Close</button>
+  </div>
+
+</div>

@@ -32,6 +32,7 @@
         <td>{{ s.lastName }}</td>
         <td>{{ getStudyProgramName(s.studyProgramId) }}</td>
         <td class="actions-cell">
+          <button class="btn btn-secondary btn-sm" (click)="openEnroll(s.id)">Enroll</button>
           <button class="btn btn-secondary btn-sm" (click)="update(s)">Edit</button>
           <button class="btn btn-danger btn-sm" (click)="delete(s)">Delete</button>
         </td>

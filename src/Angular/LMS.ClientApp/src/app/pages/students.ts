@@ -7,6 +7,7 @@ import { DialogService } from '../services/dialog-service';
 import { MatTableModule } from '@angular/material/table';
 import { SignalUtils } from '../utils/signal-utils';
 import { StudentEditorDialog } from '../dialogs/student-editor-dialog';
+import { StudentEnrollmentsDialog } from '../dialogs/student-enrollments-dialog';
 
 @Component({
   imports: [MatProgressSpinner, MatTableModule],
@@ -42,6 +43,10 @@ export class Students implements OnInit {
 
   getStudyProgramName(id: number | null): string {
     return this.studyPrograms().find(p => p.id === id)?.name ?? '';
+  }
+
+  openEnroll(studentId: number){
+    this.dialog.open(StudentEnrollmentsDialog, studentId);
   }
 
   async addNew() {
