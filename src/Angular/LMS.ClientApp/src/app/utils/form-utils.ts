@@ -1,9 +1,10 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl, FormGroup } from "@angular/forms";
 
 export class FormUtils {
 
   static getErrors(control: AbstractControl | null): string[] {
-    if (!control || !control.errors) {
+
+    if (!control || control.untouched || !control.errors) {
       return [];
     }
 

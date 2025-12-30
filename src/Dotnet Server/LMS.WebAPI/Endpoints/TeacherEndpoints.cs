@@ -21,20 +21,20 @@ namespace LMS.WebAPI.Endpoints
         }
 
 
-        public static Task<Teacher?> GetAsync(AppDbContext dbContext,
+        static Task<Teacher?> GetAsync(AppDbContext dbContext,
                                               int id,
                                               CancellationToken cancellationToken = default)
             => dbContext.Teachers
                 .AsNoTracking()
                 .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
 
-        public static async Task<IEnumerable<Teacher>> GetAllAsync(AppDbContext dbContext,
+        static async Task<IEnumerable<Teacher>> GetAllAsync(AppDbContext dbContext,
                                                                    CancellationToken cancellationToken = default)
             => await dbContext.Teachers
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-        public static async Task<int> CreateAsync(AppDbContext dbContext,
+        static async Task<int> CreateAsync(AppDbContext dbContext,
                                                   Teacher teacher,
                                                   CancellationToken cancellationToken = default)
         {
@@ -43,7 +43,7 @@ namespace LMS.WebAPI.Endpoints
             return teacher.Id;
         }
 
-        public static async Task UpdateAsync(AppDbContext dbContext,
+        static async Task UpdateAsync(AppDbContext dbContext,
                                              Teacher teacher,
                                              CancellationToken cancellationToken = default)
         {
@@ -51,9 +51,9 @@ namespace LMS.WebAPI.Endpoints
             await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public static async Task<bool> DeleteAsync(AppDbContext dbContext,
-                                                   int id,
-                                                   CancellationToken cancellationToken = default)
+        static async Task<bool> DeleteAsync(AppDbContext dbContext,
+                                            int id,
+                                            CancellationToken cancellationToken = default)
         {
             var deletedCount = await dbContext.Teachers
                                                 .Where(t => t.Id == id)

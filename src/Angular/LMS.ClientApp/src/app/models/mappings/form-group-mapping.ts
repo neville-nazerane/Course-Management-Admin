@@ -4,6 +4,7 @@ import { DateUtils } from "../../utils/date-utils";
 import { StudyProgram } from "../study-program";
 import { Course } from "../course";
 import { Student } from "../student";
+import { CourseSection } from "../course-section";
 
 export class FormGroupMappings {
 
@@ -117,6 +118,28 @@ export class FormGroupMappings {
         );
 
         return new FormGroup({ id, firstName, lastName, dateOfBirth, enrolledOn, studyProgramId });
+    }
+
+    static createCourseSection(data?: CourseSection): FormGroup {
+        const id = FormGroupMappings.control(data?.id ?? 0);
+
+        const courseId = FormGroupMappings.control(
+            data?.courseId ?? null,
+            Validators.required
+        );
+
+        const teacherId = FormGroupMappings.control(
+            data?.teacherId ?? null,
+            Validators.required
+        );
+
+        const sectionCode = FormGroupMappings.control(
+            data?.sectionCode ?? '',
+            Validators.required,
+            Validators.maxLength(20)
+        );
+
+        return new FormGroup({ id, courseId, teacherId, sectionCode });
     }
 
 

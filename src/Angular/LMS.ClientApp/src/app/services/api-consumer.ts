@@ -6,6 +6,8 @@ import { setThrowInvalidWriteToSignalError } from "@angular/core/primitives/sign
 import { Course } from "../models/course";
 import { StudyProgram } from "../models/study-program";
 import { Student } from "../models/student";
+import { CourseSectionDisplay } from "../models/course-section-display";
+import { CourseSection } from "../models/course-section";
 
 @Injectable({providedIn: 'root'})
 export class ApiConsumer {
@@ -92,6 +94,34 @@ export class ApiConsumer {
         return this.delete<void>(`student/${id}`);
     }
 
+    public getCourseSectionsByCourseId(courseId: number): Promise<CourseSectionDisplay[]> {
+        return this.get<CourseSectionDisplay[]>(`course/${courseId}/sections`);
+    }
+
+    public getCourseSection(courseSectionId: number): Promise<CourseSectionDisplay> {
+        return this.get<CourseSectionDisplay>(`course/section/${courseSectionId}`);
+    }
+
+    public addCourseSection(model: CourseSection): Promise<number> {
+        return this.post<number>('course/section', model);
+    }
+
+    public patchCourseSection(courseSectionId: number, sectionCode: string): Promise<void> {
+        return this.patch<void>(`course/section/${courseSectionId}?sectionCode=${sectionCode}`);
+    }
+
+    public deleteCourseSection(courseSectionId: number): Promise<void> {
+        return this.delete<void>(`course/section/${courseSectionId}`);
+    }
+
+
+
+
+
+
+
+
+
 
     get<T>(url: string): Promise<T> {
         return firstValueFrom(this.http.get<T>(url));
@@ -108,5 +138,11 @@ export class ApiConsumer {
     delete<T>(url: string): Promise<T> {
         return firstValueFrom(this.http.delete<T>(url));
     }
+
+    patch<T>(url: string, body?: unknown): Promise<T> {
+        return firstValueFrom(this.http.patch<T>(url, body));
+    }
+
+
 
 }

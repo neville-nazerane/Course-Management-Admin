@@ -20,11 +20,10 @@ export class CourseEditorDialog {
   protected isLoading = signal(false);
   protected form: FormGroup;
 
-  constructor(
-    private dialogRef: MatDialogRef<CourseEditorDialog>,
-    private consumer: ApiConsumer,
-    private dialog: DialogService,
-    @Inject(MAT_DIALOG_DATA) data: Course
+  constructor(private dialogRef: MatDialogRef<CourseEditorDialog>,
+              private consumer: ApiConsumer,
+              private dialog: DialogService,
+              @Inject(MAT_DIALOG_DATA) data: Course
   ) {
     this.isEditing = data != null;
     this.form = FormGroupMappings.createCourse(data);
