@@ -6,6 +6,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DialogService } from '../services/dialog-service';
 import { MatTableModule } from '@angular/material/table';
 import { SignalUtils } from '../utils/signal-utils';
+import { CourseTeachersDialog } from '../dialogs/course-teachers-dialog';
 
 @Component({
   imports: [MatProgressSpinner, MatTableModule],
@@ -44,6 +45,10 @@ export class Courses implements OnInit {
   async update(c: Course) {
     const updated = await this.dialog.openDialogAndWait<CourseEditorDialog, Course>(CourseEditorDialog, c);
     SignalUtils.replaceById(this.courses, updated);
+  }
+
+  openTeachers(courseId: number){
+    this.dialog.open(CourseTeachersDialog, courseId);
   }
 
   async delete(c: Course) {

@@ -10,8 +10,8 @@ export class DialogService {
 
     private dialog = inject(MatDialog);
 
-    open<T>(component: Type<T>): MatDialogRef<T> {
-        return this.dialog.open(component);
+    open<T>(component: Type<T>, data?: unknown): MatDialogRef<T> {
+        return this.dialog.open(component, { data });
     }
 
     async openConfirm(message: string): Promise<boolean> {

@@ -85,7 +85,9 @@ namespace LMS.WebAPI.Endpoints
                                         .Select(c => new CourseSectionDisplay
                                         {
                                            Id = c.Id,
+                                           CourseId = c.CourseId ?? 0,
                                            CourseName = c.Course.Name,
+                                           TeacherId = c.TeacherId ?? 0,
                                            TeacherName = $"{c.Teacher.FirstName} {c.Teacher.LastName}",
                                            SectionCode = c.SectionCode
                                         })
@@ -104,7 +106,9 @@ namespace LMS.WebAPI.Endpoints
                         .Select(c => new CourseSectionDisplay
                         {
                             Id = c.Id,
+                            CourseId = c.CourseId ?? 0,
                             CourseName = c.Course.Name,
+                            TeacherId = c.TeacherId ?? 0,
                             TeacherName = $"{c.Teacher.FirstName} {c.Teacher.LastName}",
                             SectionCode = c.SectionCode
                         })
