@@ -29,6 +29,18 @@ export class CourseTeachersDialog implements OnInit {
         this.items.set(await this.consumer.getCourseSectionsByCourseId(this.courseId))
     }
 
+    async edit(d: CourseSectionDisplay){
+        var model : CourseSection = {
+            id: d.id,
+            courseId: d.courseId,
+            teacherId: d.teacherId,
+            sectionCode: d.sectionCode
+        };
+        await this.dialog.openDialogAndWait<CourseSectionEditorDialog, number>(CourseSectionEditorDialog, model);
+        var updated = await this.consumer.getCourseSection(d.id);
+        SignalUtils.replaceById(this.items, updated);
+    }
+
     async add() : Promise<void> {
         var model : CourseSection = {
             courseId: this.courseId

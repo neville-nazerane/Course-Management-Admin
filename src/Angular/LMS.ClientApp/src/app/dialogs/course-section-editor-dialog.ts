@@ -46,6 +46,12 @@ export class CourseSectionEditorDialog implements OnInit {
 
             this.form = FormGroupMappings.createCourseSection(this.data);
 
+            if (this.data.id)
+            {
+                this.form.get('courseId')?.disable();
+                this.form.get('teacherId')?.disable();
+            }
+
             const [teachers, courses] = await Promise.all([
                 this.consumer.getTeachers(),
                 this.consumer.getCourses()
@@ -68,8 +74,16 @@ export class CourseSectionEditorDialog implements OnInit {
 
         try {
             this.isLoading.set(true);
-            const id = await this.consumer.addCourseSection(this.form.value);
-            this.dialogRef.close(id);
+
+            if (this.data.id){
+                var sectionCode = this.form.get('sectionCode')?.value;
+                await this.consumer.patchCourseSection(this.data.id, sectionCode);
+                this.dialogRef.close();
+            }
+            else {
+                const id = await this.consumer.addCourseSection(this.form.value);
+                this.dialogRef.close(id);
+            }
         }
         catch {
             await this.dialog.openError('Failed to add section');
