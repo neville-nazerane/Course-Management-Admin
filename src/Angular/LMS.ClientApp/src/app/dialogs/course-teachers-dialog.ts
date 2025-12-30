@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ApiConsumer } from '../services/api-consumer';
 import { DialogService } from '../services/dialog-service';
 import { CourseSectionDisplay } from '../models/course-section-display';
@@ -8,12 +8,13 @@ import { CourseSectionEditorDialog } from './course-section-editor-dialog';
 import { SignalUtils } from '../utils/signal-utils';
 import { CourseSection } from '../models/course-section';
 import { CourseTeachersRequest } from '../models/course-teachers-request';
+import { EnrollStudentDialog } from './enroll-student-dialog';
 
 @Component({
   selector: 'app-course-editor',
   standalone: true,
   templateUrl: './course-teachers-dialog.html',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatDialogModule],
 })
 export class CourseTeachersDialog implements OnInit {
 
@@ -57,6 +58,10 @@ export class CourseTeachersDialog implements OnInit {
         catch {
             this.dialog.openError("Failed to throw exception");
         }
+    }
+
+    async enroll(d: CourseSectionDisplay){
+        this.dialog.open(EnrollStudentDialog, d);
     }
 
     async add() : Promise<void> {

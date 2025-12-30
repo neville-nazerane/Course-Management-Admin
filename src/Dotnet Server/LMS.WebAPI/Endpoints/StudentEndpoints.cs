@@ -16,23 +16,25 @@ namespace LMS.WebAPI.Endpoints
             group.MapPut("student", UpdateAsync);
             group.MapDelete("student/{id}", DeleteAsync);
 
+            group.MapGet("student/{studentId}/enrollments", GetEnrollmentsAsync);
+
             return group;
         }
 
-        public static Task<Student?> GetAsync(AppDbContext dbContext,
+        static Task<Student?> GetAsync(AppDbContext dbContext,
                                               int id,
                                               CancellationToken cancellationToken = default)
             => dbContext.Students
                 .AsNoTracking()
                 .SingleOrDefaultAsync(s => s.Id == id, cancellationToken);
 
-        public static async Task<IEnumerable<Student>> GetAllAsync(AppDbContext dbContext,
+        static async Task<IEnumerable<Student>> GetAllAsync(AppDbContext dbContext,
                                                                    CancellationToken cancellationToken = default)
             => await dbContext.Students
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
-        public static async Task<int> CreateAsync(AppDbContext dbContext,
+        static async Task<int> CreateAsync(AppDbContext dbContext,
                                                   Student student,
                                                   CancellationToken cancellationToken = default)
         {
@@ -41,7 +43,7 @@ namespace LMS.WebAPI.Endpoints
             return student.Id;
         }
 
-        public static async Task UpdateAsync(AppDbContext dbContext,
+        static async Task UpdateAsync(AppDbContext dbContext,
                                              Student student,
                                              CancellationToken cancellationToken = default)
         {
@@ -49,7 +51,7 @@ namespace LMS.WebAPI.Endpoints
             await dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public static async Task<bool> DeleteAsync(AppDbContext dbContext,
+        static async Task<bool> DeleteAsync(AppDbContext dbContext,
                                                    int id,
                                                    CancellationToken cancellationToken = default)
         {
@@ -59,6 +61,29 @@ namespace LMS.WebAPI.Endpoints
 
             return deletedCount == 1;
         }
+
+        static async Task<IEnumerable<EnrollmentDisplay>> GetEnrollmentsAsync(AppDbContext dbContext,
+                                                                              int studentId,
+                                                                              CancellationToken cancellationToken = default)
+#pragma warning disable CS8602 // Dereference of a possibly null reference. Required relations can't be null
+        {
+            var items = await dbContext.Enrollments
+                                        .Where(e => e.StudentId == studentId)
+                                        .Select(e => new EnrollmentDisplay
+                                        {
+                                            Id = e.Id,
+                                            StudentId = e.StudentId,
+                                            StudentName = e.Student.FirstName,
+                                            CourseSectionId = e.CourseSectionId,
+                                            CourseSectionCode = e.CourseSection.SectionCode,
+                                            CourseName = e.CourseSection.Course.Name,
+                                            TeacherName = e.CourseSection.Teacher.FirstName
+                                        })
+                                        .ToListAsync(cancellationToken);
+
+            return items;
+        }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
 }

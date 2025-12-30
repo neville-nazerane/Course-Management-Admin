@@ -1,39 +1,43 @@
-<div class="dialog">
 
-  <table class="table table-striped">
-    <colgroup>
-      <col style="width: 35%">
-      <col style="width: 35%">
-      <col style="width: 20%">
-    </colgroup>
+  <mat-dialog-content>
+    <table class="table table-striped">
+      <colgroup>
+        <col style="width: 35%">
+        <col style="width: 35%">
+        <col style="width: 20%">
+        <col style="width: 40%">
+      </colgroup>
 
-    <thead>
-      <tr>
-        <th>CourseName</th>
-        <th>Teacher</th>
-        <th>Section</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      @for (item of items(); track item.id) {
+      <thead>
         <tr>
-          <td>{{ item.courseName }}</td>
-          <td>{{ item.teacherName }}</td>
-          <td>{{ item.sectionCode }}</td>
-          <td>
-            <button class="btn btn-secondary btn-sm" (click)="edit(item)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="delete(item)">Delete</button>
-          </td>
+          <th>CourseName</th>
+          <th>Teacher</th>
+          <th>Section</th>
+          <th></th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
 
+      <tbody>
+        @for (item of items(); track item.id) {
+          <tr>
+            <td>{{ item.courseName }}</td>
+            <td>{{ item.teacherName }}</td>
+            <td>{{ item.sectionCode }}</td>
+            <td>
+              <button class="btn btn-secondary btn-sm" (click)="enroll(item)">Enroll</button>
+              <button class="btn btn-secondary btn-sm" (click)="edit(item)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="delete(item)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
   <div class="d-flex justify-content-between mt-3">
-    <button class="btn btn-primary" (click)="add()">Add</button>
-    <button class="btn btn-danger" (click)="close()">Close</button>
-  </div>
+      <button class="btn btn-primary" (click)="add()">Add</button>
+      <button class="btn btn-danger" (click)="close()">Close</button>
+    </div>
+  </mat-dialog-actions>
 
-</div>

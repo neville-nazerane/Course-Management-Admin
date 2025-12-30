@@ -1,0 +1,43 @@
+<div class="dialog">
+
+  <h4 class="mb-3">Pick a student to enroll</h4>
+
+  <div class="d-flex gap-2 mb-3">
+    <select class="form-select" [(ngModel)]="selectedStudentId">
+      <option [ngValue]="null">Select student</option>
+      @for (s of students(); track s.id) {
+        <option [ngValue]="s.id">
+          {{ s.firstName }} {{ s.lastName }}
+        </option>
+      }
+    </select>
+
+    <button class="btn btn-primary" (click)="enroll()">Enroll</button>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Enrolled Students</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (e of enrollments(); track e.id) {
+        <tr>
+          <td>{{ e.studentName }}</td>
+          <td class="text-end">
+            <button class="btn btn-danger btn-sm" (click)="deleteEnrollment(e)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="text-end mt-3">
+    <button class="btn btn-danger" (click)="cancel()">Cancel</button>
+  </div>
+
+</div>

@@ -8,11 +8,15 @@ import { StudyProgram } from "../models/study-program";
 import { Student } from "../models/student";
 import { CourseSectionDisplay } from "../models/course-section-display";
 import { CourseSection } from "../models/course-section";
+import { Enrollment } from "../models/enrollment";
+import { EnrollmentDisplay } from "../models/enrollment-display";
 
 @Injectable({providedIn: 'root'})
 export class ApiConsumer {
 
     private http = inject(HttpClient);
+
+    //#region Teachers
 
     public getTeachers(): Promise<Teacher[]> {
         return this.get<Teacher[]>('teachers');
@@ -38,6 +42,10 @@ export class ApiConsumer {
         return this.get<CourseSectionDisplay[]>(`teacher/${teacherId}/courseSections`);
     }
 
+    //#endregion
+
+    //#region Courses
+
     public getCourses(): Promise<Course[]> {
         return this.get<Course[]>('courses');
     }
@@ -57,6 +65,10 @@ export class ApiConsumer {
     public deleteCourse(id: number): Promise<void> {
         return this.delete<void>(`course/${id}`);
     }
+
+    //#endregion
+
+    //#region Study Programs
 
     public getStudyPrograms(): Promise<StudyProgram[]> {
         return this.get<StudyProgram[]>('study-programs');
@@ -78,6 +90,10 @@ export class ApiConsumer {
         return this.delete<void>(`study-program/${id}`);
     }
 
+    //#endregion
+
+    //#region Students
+
     public getStudents(): Promise<Student[]> {
         return this.get<Student[]>('students');
     }
@@ -94,9 +110,17 @@ export class ApiConsumer {
         return this.put<void>('student', model);
     }
 
+    public getStudentEnrollments(studentId: number): Promise<EnrollmentDisplay[]> {
+        return this.get<EnrollmentDisplay[]>(`student/${studentId}/enrollments`);
+    }
+
     public deleteStudent(id: number): Promise<void> {
         return this.delete<void>(`student/${id}`);
     }
+
+    //#endregion
+
+    //#region Course Sections
 
     public getCourseSectionsByCourseId(courseId: number): Promise<CourseSectionDisplay[]> {
         return this.get<CourseSectionDisplay[]>(`course/${courseId}/sections`);
@@ -118,11 +142,27 @@ export class ApiConsumer {
         return this.delete<void>(`course/section/${courseSectionId}`);
     }
 
+    //#endregion
 
+    //#region Enrollments
 
+    public enroll(model: Enrollment): Promise<number> {
+        return this.post<number>('course/enrollment', model);
+    }
 
+    public getCourseEnrollments(courseSectionId: number): Promise<EnrollmentDisplay[]> {
+        return this.get<EnrollmentDisplay[]>(`course/section/${courseSectionId}/enrollments`);
+    }
 
+    public deleteEnrollment(id: number): Promise<void> {
+        return this.delete<void>(`course/enrollment/${id}`);
+    }
 
+    public getEnrollment(id: number) : Promise<EnrollmentDisplay> {
+        return this.get<EnrollmentDisplay>(`course/enrollment/${id}`);
+    }
+
+    //#endregion
 
 
 
