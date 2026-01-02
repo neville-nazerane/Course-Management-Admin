@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
 
 function App() {
-  const [count, setCount] = useState(0)
-   
   return (
-    <div>
-      <span>{count}</span>
-      <button onClick={() => setCount(count + 1)}>+</button>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<div>Home</div>} />
+        <Route path="/teachers" element={<div>Teachers</div>} />
+        <Route path="/courses" element={<div>Courses</div>} />
+        <Route path="/students" element={<div>Students</div>} />
+      </Route>
+    </Routes>
   );
 }
 
-export default App
+export default App;
