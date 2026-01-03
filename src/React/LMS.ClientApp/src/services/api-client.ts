@@ -1,12 +1,13 @@
-import axios, { AxiosInstance } from 'axios';
-import { Course } from "../models/course";
-import { StudyProgram } from "../models/study-program";
-import { Student } from "../models/student";
-import { CourseSectionDisplay } from "../models/course-section-display";
-import { CourseSection } from "../models/course-section";
-import { Enrollment } from "../models/enrollment";
-import { EnrollmentDisplay } from "../models/enrollment-display";
-import { Teacher } from "../models/teacher";
+import type { Course } from "../models/course";
+import type { StudyProgram } from "../models/study-program";
+import type { Student } from "../models/student";
+import type { CourseSectionDisplay } from "../models/course-section-display";
+import type { CourseSection } from "../models/course-section";
+import type { Enrollment } from "../models/enrollment";
+import type { EnrollmentDisplay } from "../models/enrollment-display";
+import type { Teacher } from "../models/teacher";
+import axios from "axios";
+import type { AxiosInstance } from "axios";
 
 export class ApiClient {
   private readonly http: AxiosInstance;
@@ -207,11 +208,12 @@ export class ApiClient {
     return this.http.put<T>(url, data).then(r => r.data);
   }
 
-  private patch<T>(url: string, data?: unknown): Promise<T> {
+  private patch<T>(url: string): Promise<T> {
     return this.http.patch<T>(url).then(r => r.data);
   }
 
   private delete<T>(url: string): Promise<T> {
     return this.http.delete<T>(url).then(r => r.data);
   }
+  
 }
