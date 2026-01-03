@@ -7,39 +7,39 @@ type Props = {
   onClose: () => void;
 };
 
-export default forwardRef<HTMLDivElement, Props>(function TeacherEditor(
-  { teacher, onClose: onClose },
-  ref
-) {
-  const api = useContext(ApiContext);
+export default function TeacherEditor({ teacher, onClose } : Props) {
+    const api = useContext(ApiContext);
 
-  const [model, setModel] = useState<Teacher>({
-    id: 0,
-    firstName: '',
-    lastName: '',
-    title: '',
-    dateOfBirth: new Date(''),
-    hiredOn: new Date('')
-  });
+    const emptyTeacher : Teacher = {
+        id: 0,
+        firstName: '',
+        lastName: '',
+        title: '',
+        dateOfBirth: new Date(''),
+        hiredOn: new Date('')
+    };
 
-  useEffect(() => {
-    if (teacher) setModel(teacher);
-  }, [teacher]);
+    const [model, setModel] = useState<Teacher>(emptyTeacher);
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    useEffect(() => {
+        if (teacher != null) setModel(teacher);
+        else setModel(emptyTeacher);
+    }, [teacher]);
 
-    if (!model.id) {
-      await api.createTeacher(model);
-    } else {
-      await api.updateTeacher(model);
-    }
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-    onClose();
-  };
+        if (!model.id) {
+            await api.createTeacher(model);
+        } else {
+            await api.updateTeacher(model);
+        }
+
+        onClose();
+    };
 
   return (
-    <div className="modal fade" tabIndex={-1} ref={ref}>
+    <div className="modal fade" tabIndex={-1}>
         <div className="modal-dialog">
             <div className="modal-content">
             <form onSubmit={submit}>
@@ -62,9 +62,7 @@ export default forwardRef<HTMLDivElement, Props>(function TeacherEditor(
                     <input
                         className="form-control"
                         value={model.title ?? ''}
-                        onChange={e =>
-                        setModel(x => ({ ...x, title: e.target.value }))
-                        }
+                        onChange={e => setModel(x => ({ ...x, title: e.target.value }))}
                     />
                     </div>
 
@@ -73,9 +71,7 @@ export default forwardRef<HTMLDivElement, Props>(function TeacherEditor(
                     <input
                         className="form-control"
                         value={model.firstName}
-                        onChange={e =>
-                        setModel(x => ({ ...x, firstName: e.target.value }))
-                        }
+                        onChange={e => setModel(x => ({ ...x, firstName: e.target.value }))}
                     />
                     </div>
 
@@ -142,7 +138,7 @@ export default forwardRef<HTMLDivElement, Props>(function TeacherEditor(
         </div>
 
   );
-});
+};
 
 
 function cleanDate(d: Date) : string {
