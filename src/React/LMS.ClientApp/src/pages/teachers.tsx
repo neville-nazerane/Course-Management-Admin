@@ -1,15 +1,18 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import type { Teacher } from '../models/teacher';
 import { ApiContext } from '../services/contexts';
-import TeacherEditor from '../services/dialogs/teacher-editor';
 import { Modal } from 'bootstrap';
+import TeacherEditor from '../dialogs/teacher-editor';
+import ConfirmDialog from '../dialogs/confirm-dialog';
 
 
 export default function Teachers() {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [current, setCurrent] = useState<Teacher |  null>(null);
+    const [deleteMsg, setDeleteMsg] = useState('');
     
-    // const [editor, setEditor] = useState<Modal | null>(null);
+    const deletingItem = useRef<Teacher | null>(null);
+
     const editor = useRef<Modal | null>(null);
 
     const api = useContext(ApiContext);
@@ -30,21 +33,30 @@ export default function Teachers() {
             }
             editor.current.hide();
         }
+    }
 
-        
+    const deleteConfirmed = async (confirm: boolean) => {
+        if (confirm && deletingItem.current){
+            
+            const deletingId = deletingItem.current.id;
+            await api.deleteTeacher(deletingId);
+            setTeachers(l => l.filter(t => t.id != deletingId));
+        }
     }
 
     const openEditor = (t: Teacher | null) => {
         setCurrent(t);
         if (!editor.current) {
-            editor.current = new Modal(".modal");
+            editor.current = new Modal("#teacher-editor");
         }
         editor.current.show();
     };
 
     const deleteItem = async (t: Teacher) => {
-        await api.deleteTeacher(t.id);
-        setTeachers(await api.getTeachers());
+        console.log(t);
+        deletingItem.current = t;
+        setDeleteMsg(`Are you sure you want to delete ${t.firstName}`);
+        Modal.getOrCreateInstance('#delete-confirm').show();
     }
 
   return (
@@ -81,6 +93,8 @@ export default function Teachers() {
     </table>
 
     <TeacherEditor onClose={closed} teacher={current}  />
+
+    <ConfirmDialog id='delete-confirm' closed={deleteConfirmed} message={deleteMsg} />
 </>
   );
 }

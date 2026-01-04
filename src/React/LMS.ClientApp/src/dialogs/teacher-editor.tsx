@@ -1,6 +1,7 @@
-import { forwardRef, useContext, useEffect, useState } from 'react';
-import { ApiContext } from '../contexts';
-import type { Teacher } from '../../models/teacher';
+import { useContext, useEffect, useState } from 'react';
+import { ApiContext } from '../services/contexts';
+import type { Teacher } from '../models/teacher';
+import { DataUtils } from '../assets/utils/data-utils';
 
 type Props = {
   teacher: Teacher | null;
@@ -39,7 +40,7 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
     };
 
   return (
-    <div className="modal fade" tabIndex={-1}>
+    <div id="teacher-editor" className="modal fade" tabIndex={-1}>
         <div className="modal-dialog">
             <div className="modal-content">
             <form onSubmit={submit}>
@@ -51,8 +52,7 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                     type="button"
                     className="btn-close"
                     aria-label="Close"
-                    onClick={onClose}
-                />
+                    onClick={onClose} />
                 </div>
 
                 <div className="modal-body">
@@ -62,8 +62,7 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                     <input
                         className="form-control"
                         value={model.title ?? ''}
-                        onChange={e => setModel(x => ({ ...x, title: e.target.value }))}
-                    />
+                        onChange={e => setModel(x => ({ ...x, title: e.target.value }))} />
                     </div>
 
                     <div className="col-md-4 mb-3">
@@ -71,8 +70,7 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                     <input
                         className="form-control"
                         value={model.firstName}
-                        onChange={e => setModel(x => ({ ...x, firstName: e.target.value }))}
-                    />
+                        onChange={e => setModel(x => ({ ...x, firstName: e.target.value }))} />
                     </div>
 
                     <div className="col-md-5 mb-3">
@@ -81,9 +79,7 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                         className="form-control"
                         value={model.lastName}
                         onChange={e =>
-                        setModel(x => ({ ...x, lastName: e.target.value }))
-                        }
-                    />
+                        setModel(x => ({ ...x, lastName: e.target.value }))} />
                     </div>
                 </div>
 
@@ -93,14 +89,13 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                     <input
                         type="date"
                         className="form-control"
-                        value={cleanDate(model.dateOfBirth)}
+                        value={DataUtils.cleanDate(model.dateOfBirth)}
                         onChange={e =>
                         setModel(x => ({
                             ...x,
                             dateOfBirth: new Date(e.target.value)
                         }))
-                        }
-                    />
+                        } />
                     </div>
 
                     <div className="col-md-6 mb-3">
@@ -108,14 +103,13 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
                     <input
                         type="date"
                         className="form-control"
-                        value={cleanDate(model.hiredOn)}
+                        value={DataUtils.cleanDate(model.hiredOn)}
                         onChange={e =>
                         setModel(x => ({
                             ...x,
                             hiredOn: new Date(e.target.value)
                         }))
-                        }
-                    />
+                        } />
                     </div>
                 </div>
                 </div>
@@ -141,8 +135,3 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
 };
 
 
-function cleanDate(d: Date) : string {
-    if (!isNaN(Date.parse(d.toString())))
-        return new Date(d).toISOString().slice(0, 10);
-    return new Date().toISOString().slice(0, 10);
-}
