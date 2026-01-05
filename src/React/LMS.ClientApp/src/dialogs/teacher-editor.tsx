@@ -16,8 +16,8 @@ export default function TeacherEditor({ teacher, onClose } : Props) {
         firstName: '',
         lastName: '',
         title: '',
-        dateOfBirth: new Date(''),
-        hiredOn: new Date('')
+        dateOfBirth: new Date(),
+        hiredOn: new Date()
     };
 
     const [model, setModel] = useState<Teacher>(emptyTeacher);

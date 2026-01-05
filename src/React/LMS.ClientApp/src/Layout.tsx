@@ -24,7 +24,7 @@ function Layout() {
                 <a className="nav-link" href="courses">Courses</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Study programs</a>
+                <a className="nav-link" href="study-programs">Study programs</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="students">Students</a>

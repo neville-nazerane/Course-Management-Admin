@@ -3,7 +3,7 @@ export interface Student {
   id: number;
   firstName: string;
   lastName: string;
-  dateOfBirth: string;
-  enrolledOn: string;
+  dateOfBirth: Date;
+  enrolledOn: Date;
   studyProgramId: number | null;
 }

@@ -4,12 +4,14 @@ import { ApiContext } from '../services/contexts';
 import { Modal } from 'bootstrap';
 import TeacherEditor from '../dialogs/teacher-editor';
 import ConfirmDialog from '../dialogs/confirm-dialog';
+import TeacherCourseEditor from '../dialogs/teacher-course-editor';
 
 
 export default function Teachers() {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [current, setCurrent] = useState<Teacher |  null>(null);
     const [deleteMsg, setDeleteMsg] = useState('');
+    const [ courseTeacherId, setCourseTeacherId ] = useState(0);
     
     const deletingItem = useRef<Teacher | null>(null);
 
@@ -52,6 +54,11 @@ export default function Teachers() {
         editor.current.show();
     };
 
+    const openCourses = (t: Teacher) => {
+      setCourseTeacherId(t.id);
+      Modal.getOrCreateInstance('#teacher-course-editor').show();
+    }
+
     const deleteItem = async (t: Teacher) => {
         console.log(t);
         deletingItem.current = t;
@@ -74,7 +81,7 @@ export default function Teachers() {
           <th>First Name</th>
           <th>Last Name</th>
           <th>Title</th>
-          <th style={{ width: 150 }}>Actions</th>
+          <th style={{ width: 250 }}>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -84,6 +91,7 @@ export default function Teachers() {
             <td>{t.lastName}</td>
             <td>{t.title ?? ''}</td>
             <td>
+              <button className="btn btn-sm btn-primary me-2" onClick={() => openCourses(t)}>Courses</button>
               <button className="btn btn-sm btn-primary me-2" onClick={() => openEditor(t)}>Edit</button>
               <button className="btn btn-sm btn-danger" onClick={() => deleteItem(t)}>Delete</button>
             </td>
@@ -93,6 +101,8 @@ export default function Teachers() {
     </table>
 
     <TeacherEditor onClose={closed} teacher={current}  />
+
+    <TeacherCourseEditor teacherId={courseTeacherId} />
 
     <ConfirmDialog id='delete-confirm' closed={deleteConfirmed} message={deleteMsg} />
 </>
