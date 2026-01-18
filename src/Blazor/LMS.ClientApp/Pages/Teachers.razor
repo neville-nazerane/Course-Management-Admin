@@ -1,0 +1,45 @@
+﻿@page "/teachers"
+
+
+<div class="d-flex align-items-center mb-3">
+    <h3 class="flex-grow-1 text-center mb-0">Teachers</h3>
+    <button class="btn btn-primary">Add</button>
+</div>
+
+
+@if (teachers.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:4rem;">#</th>
+                <th style="width:30%;">First Name</th>
+                <th style="width:30%;">Last Name</th>
+                <th style="width:20%;">Title</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var i = 1;
+            }
+            @foreach (var teacher in teachers)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@teacher.FirstName</td>
+                    <td>@teacher.LastName</td>
+                    <td>@teacher.Title</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2">Edit</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+}
+

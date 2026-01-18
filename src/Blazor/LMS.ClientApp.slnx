@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../Dotnet Server/LMS.Models/LMS.Models.csproj" />
+  <Project Path="LMS.ClientApp/LMS.ClientApp.csproj" />
+</Solution>
