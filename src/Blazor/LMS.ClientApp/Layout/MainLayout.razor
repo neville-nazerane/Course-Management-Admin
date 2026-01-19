@@ -29,4 +29,12 @@
 
 <div class="container">
     @Body
+
+    @switch (appState.CurrentDialog)
+    {
+        case DialogType.Confirmation:
+            <div>Hello confirmation</div>
+            break;
+    }
+
 </div>
