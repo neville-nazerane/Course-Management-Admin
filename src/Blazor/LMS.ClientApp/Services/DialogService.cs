@@ -9,9 +9,12 @@ namespace LMS.ClientApp.Services
 
         public DialogContext<bool> Confirmation { get; }
 
+        public DialogContext<int> TeacherEditor { get; set; }
+
         public DialogService(IJSRuntime js)
         {
             AddCloser(Confirmation = new(js, "confirm-dialog"));
+            AddCloser(TeacherEditor = new(js, "teacher-editor-dialog"));
 
             JsHandler.DialogClosed += DialogClosed;
         }

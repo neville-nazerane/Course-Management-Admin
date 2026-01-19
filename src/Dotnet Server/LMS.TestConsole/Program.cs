@@ -30,7 +30,7 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await ClearTeachersAsync();
 
-//await GenerateTeachersAsync(5);
+await GenerateTeachersAsync(5);
 
 //await ClearCoursesAsync();
 
@@ -40,7 +40,7 @@ var studyProgramFaker = new Faker<StudyProgram>().SetupDefaults();
 
 //await GenerateStudyProgramsAsync(20);
 
-await GenerateStudentsAsync(100);
+//await GenerateStudentsAsync(100);
 
 
 #region Functions

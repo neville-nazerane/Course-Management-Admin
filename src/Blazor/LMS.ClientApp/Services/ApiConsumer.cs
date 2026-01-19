@@ -8,10 +8,10 @@ namespace LMS.ClientApp.Services
         
         private readonly HttpClient _client = client;
 
-        public Task<IEnumerable<Teacher>?> GetTeachers()
+        public Task<IEnumerable<Teacher>?> GetTeachersAsync()
             => _client.GetFromJsonAsync<IEnumerable<Teacher>>("teachers");
 
-        public Task<Teacher?> GetTeacher(int id)
+        public Task<Teacher?> GetTeacherAsync(int id)
             => _client.GetFromJsonAsync<Teacher>($"teacher/{id}");
 
         public async Task<int> CreateTeacherAsync(Teacher teacher)
