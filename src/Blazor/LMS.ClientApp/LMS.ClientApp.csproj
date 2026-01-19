@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\Dotnet Server\LMS.Models\LMS.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

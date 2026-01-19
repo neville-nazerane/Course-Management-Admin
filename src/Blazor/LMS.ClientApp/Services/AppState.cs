@@ -5,7 +5,12 @@ namespace LMS.ClientApp.Services
     public class AppState
     {
 
-        public DialogType CurrentDialog { get; set; }
+        public event Action? StateChanged;
+
+        public void NotifyChanged()
+        {
+            StateChanged?.Invoke();
+        }
 
     }
 }

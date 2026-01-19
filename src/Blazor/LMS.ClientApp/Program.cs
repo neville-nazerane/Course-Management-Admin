@@ -8,8 +8,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7283") });
-builder.Services.AddScoped<ApiConsumer>();
-
-builder.Services.AddSingleton<AppState>();
+builder.Services.AddScoped<ApiConsumer>()
+                .AddScoped<DialogService>()
+                .AddSingleton<AppState>();
 
 await builder.Build().RunAsync();
