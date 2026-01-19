@@ -11,10 +11,14 @@ namespace LMS.ClientApp.Services
 
         public DialogContext<int> TeacherEditor { get; set; }
 
+        public DialogContext<int> StudyProgramEditor { get; set; }
+
+
         public DialogService(IJSRuntime js)
         {
             AddCloser(Confirmation = new(js, "confirm-dialog"));
             AddCloser(TeacherEditor = new(js, "teacher-editor-dialog"));
+            AddCloser(StudyProgramEditor = new(js, "studyprogram-editor-dialog"));
 
             JsHandler.DialogClosed += DialogClosed;
         }

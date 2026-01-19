@@ -37,6 +37,8 @@ namespace LMS.ClientApp.Services
             return Convert.ToBoolean(str);
         }
 
+        #region Students
+
         public Task<IEnumerable<Student>?> GetStudents()
             => _client.GetFromJsonAsync<IEnumerable<Student>>("students");
 
@@ -65,5 +67,38 @@ namespace LMS.ClientApp.Services
             return Convert.ToBoolean(str);
         }
 
+        #endregion
+
+        #region Study program
+
+        public Task<IEnumerable<StudyProgram>?> GetStudyProgramsAsync()
+            => _client.GetFromJsonAsync<IEnumerable<StudyProgram>>("study-programs");
+
+        public Task<StudyProgram?> GetStudyProgramAsync(int id)
+            => _client.GetFromJsonAsync<StudyProgram>($"study-program/{id}");
+
+        public async Task<int> CreateStudyProgramAsync(StudyProgram studyProgram)
+        {
+            using var res = await _client.PostAsJsonAsync("study-program", studyProgram);
+            res.EnsureSuccessStatusCode();
+            var str = await res.Content.ReadAsStringAsync();
+            return Convert.ToInt32(str);
+        }
+
+        public async Task UpdateStudyProgramAsync(StudyProgram studyProgram)
+        {
+            using var res = await _client.PutAsJsonAsync("study-program", studyProgram);
+            res.EnsureSuccessStatusCode();
+        }
+
+        public async Task<bool> DeleteStudyProgramAsync(int id)
+        {
+            using var res = await _client.DeleteAsync($"study-program/{id}");
+            res.EnsureSuccessStatusCode();
+            var str = await res.Content.ReadAsStringAsync();
+            return Convert.ToBoolean(str);
+        }
+
+        #endregion
     }
 }

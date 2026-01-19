@@ -1,0 +1,45 @@
+﻿@page "/study-programs"
+
+<div class="d-flex align-items-center mb-3">
+    <h3 class="flex-grow-1 text-center mb-0">Study Programs</h3>
+    <button class="btn btn-primary" @onclick="AddAsync">Add</button>
+</div>
+
+@if (studyPrograms.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:4rem;">#</th>
+                <th style="width:15%;">Name</th>
+                <th style="width:6rem;">Code</th>
+                <th>Description</th>
+                <th style="width:10rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var i = 1;
+            }
+            @foreach (var program in studyPrograms)
+            {
+                <tr>
+                    <td>@(i++)</td>
+                    <td>@program.Name</td>
+                    <td>@program.Code</td>
+                    <td>@program.Description</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary me-2"
+                                onclick="@(async () => await EditAsync(program))">
+                            Edit
+                        </button>
+                        <button class="btn btn-sm btn-danger"
+                                onclick="@(async () => await DeleteAsync(program))">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
