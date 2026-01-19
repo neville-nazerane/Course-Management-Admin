@@ -15,8 +15,7 @@ namespace LMS.ClientApp.Pages
 
         async Task AddAsync()
         {
-            Console.WriteLine("hello world");
-            await dialogService.ShowConfirmAsync();
+            await dialogService.Confirmation.OpenAsync();
         }
 
     }
