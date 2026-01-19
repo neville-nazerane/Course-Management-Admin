@@ -32,7 +32,7 @@
                     <td>@teacher.Title</td>
                     <td>
                         <button class="btn btn-sm btn-primary me-2">Edit</button>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <button class="btn btn-sm btn-danger" onclick="@(async () => await DeleteAsync(teacher))">Delete</button>
                     </td>
                 </tr>
             }

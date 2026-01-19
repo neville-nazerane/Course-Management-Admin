@@ -32,7 +32,8 @@ namespace LMS.ClientApp.Services
         {
             using var res = await _client.DeleteAsync($"teacher/{id}");
             res.EnsureSuccessStatusCode();
-            var str = res.Content.ReadAsStringAsync();
+            var str = await res.Content.ReadAsStringAsync();
+            Console.WriteLine(str);
             return Convert.ToBoolean(str);
         }
 

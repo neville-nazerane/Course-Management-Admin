@@ -1,8 +1,9 @@
 ﻿using LMS.ClientApp.Services;
+using Microsoft.JSInterop;
 
 namespace LMS.ClientApp.Layout
 {
-    public partial class MainLayout(AppState appState) : IDisposable
+    public partial class MainLayout(AppState appState, IJSRuntime js) : IDisposable
     {
         
         protected override void OnInitialized()
@@ -14,6 +15,11 @@ namespace LMS.ClientApp.Layout
         private void AppState_StateChanged()
         {
             StateHasChanged();
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await js.InvokeVoidAsync("window.init");
         }
 
         public void Dispose()

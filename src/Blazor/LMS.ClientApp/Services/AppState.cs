@@ -4,7 +4,9 @@ namespace LMS.ClientApp.Services
     public class AppState
     {
 
-        TaskCompletionSource<bool>? confirmSource;
+        public string? ConfirmMessage { get; private set; }
+
+        public event Action? ConfirmMessageChanged;
 
         public event Action? StateChanged;
 
@@ -13,16 +15,10 @@ namespace LMS.ClientApp.Services
             StateChanged?.Invoke();
         }
 
-        public void SendConfirmation(bool result)
+        public void SetConfirmMessage(string msg)
         {
-            confirmSource?.TrySetResult(result);
-            confirmSource = null;
-        }
-
-        public Task<bool> WaitForConfirmationAsync()
-        {
-            confirmSource ??= new();
-            return confirmSource.Task;
+            ConfirmMessage = msg;
+            ConfirmMessageChanged?.Invoke();
         }
 
     }
